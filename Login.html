@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THAUREX SYSTEM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+/* === THAUREX SYSTEM — STYLE.CSS === */
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BODY */
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: radial-gradient(circle at center, #0a0f0a 0%, #030404 100%);
+  color: #E0E0E0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* === BACKGROUND ELEMENTS === */
+#gridCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background: transparent;
+}
+
+#smoke-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.smoke-particle {
+  position: absolute;
+  bottom: 0;
+  width: 5px;
+  height: 5px;
+  background-color: rgba(0, 255, 136, 0.4);
+  border-radius: 50%;
+  filter: blur(2px);
+  animation: smoke-rise linear infinite;
+}
+
+@keyframes smoke-rise {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.5);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-50vh) translateX(10px) scale(1.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(20px) scale(2);
+    opacity: 0;
+  }
+}
+
+/* === CONTAINER === */
+.container {
+  background: linear-gradient(145deg, #101810 0%, #050807 100%);
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  padding: 26px;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow:
+    inset 0 0 20px rgba(0, 255, 136, 0.05),
+    0 0 20px rgba(255, 255, 255, 0.1),
+    0 0 60px rgba(0, 255, 136, 0.15);
+  backdrop-filter: blur(6px);
+  margin-bottom: 20px;
+  z-index: 2;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+  transform: scale(1.015);
+  box-shadow:
+    inset 0 0 25px rgba(0, 255, 136, 0.1),
+    0 0 35px rgba(255, 255, 255, 0.15),
+    0 0 80px rgba(0, 255, 136, 0.25);
+}
+
+/* === PROFILE CARD === */
+.profile-card {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.profile-logo {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 15px;
+  border: 2px solid #00FF88;
+  box-shadow:
+    0 0 15px #00FF88,
+    0 0 30px rgba(0, 255, 136, 0.5),
+    0 0 50px rgba(0, 255, 136, 0.3);
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.profile-logo:hover {
+  transform: rotate(5deg) scale(1.05);
+  box-shadow:
+    0 0 25px #00FF88,
+    0 0 60px rgba(0, 255, 136, 0.5);
+}
+
+.profile-username {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px;
+  color: #E0E0E0;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow:
+    0 0 10px rgba(0, 255, 136, 0.6),
+    0 0 30px rgba(0, 255, 136, 0.2);
+}
+
+/* === FORM ELEMENTS === */
+.section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  color: #00FF88;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: rgba(5, 15, 10, 0.9);
+  border: 1px solid rgba(0, 255, 136, 0.6);
+  color: #E0E0E0;
+  margin-bottom: 25px;
+  font-size: 16px;
+  outline: none;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: inset 0 0 15px rgba(0, 255, 136, 0.1);
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  border-color: #ffffff;
+  box-shadow:
+    0 0 10px #ffffff,
+    0 0 25px rgba(0, 255, 136, 0.4);
+}
+
+/* === BUTTON === */
+.execute-button {
+  background: linear-gradient(90deg, #00FF88 0%, #ffffff 100%);
+  color: #000;
+  padding: 16px;
+  width: 100%;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow:
+    0 0 15px rgba(0, 255, 136, 0.2),
+    inset 0 0 10px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.execute-button:hover {
+  background: linear-gradient(90deg, #ffffff 0%, #00FF88 100%);
+  color: #000;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 0 30px rgba(255, 255, 255, 0.8),
+    0 0 50px rgba(0, 255, 136, 0.6);
+}
+
+/* === VIDEO POPUP === */
+.video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(3, 4, 5, 0.95);
+  z-index: 1000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+.video-container.active {
+  display: flex;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.video-wrapper {
+  width: 80%;
+  max-width: 800px;
+  border: 2px solid #00FF88;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow:
+    0 0 40px rgba(0, 255, 136, 0.3),
+    0 0 60px rgba(255, 255, 255, 0.3);
+  transform: scale(0.95);
+  animation: zoomIn 0.6s ease forwards;
+}
+
+.video-player {
+  width: 100%;
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 480px) {
+  h1.main-title {
+    font-size: 28px;
+  }
+  .container {
+    padding: 20px;
+  }
+  .profile-logo {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <!-- Asep Rokok Background -->
+  <div id="smoke-background"></div>
+  <canvas id="gridCanvas"></canvas>
+
+  <!-- Video Container -->
+  <div class="video-container" id="videoContainer">
+    <div class="video-wrapper">
+      <!-- Hanya menghapus atribut muted agar suara dapat diputar -->
+      <video class="video-player" id="loginVideo">
+        <source src="https://files.catbox.moe/mksc7a.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+  
+  <!-- Login Form dengan Tampilan Dashboard -->
+    <div class="container profile-card">
+        <img src="https://files.catbox.moe/4tq0rq.jpg" alt="Logo" class="profile-logo" />
+        <div class="profile-username" style="font-family: 'Orbitron', sans-serif; font-size: 24px; color: #E0E0E0; font-weight: bold; margin-bottom: 8px;">Login Account</div>
+        <div class="profile-details" style="font-size: 14px; color: #9A9A9A;">
+          Please enter your credentials to access the dashboard
+        </div>
+    </div>
+
+    <div class="container">
+        <form method="POST" action="/auth" id="loginForm">
+            <div class="section-title">Username</div>
+            <input type="text" name="username" placeholder="Enter your username" required />
+
+            <div class="section-title">Password</div>
+            <input type="password" name="key" placeholder="Enter your password" required />
+
+            <button type="submit" class="execute-button">
+              <i class="fas fa-sign-in-alt"></i> LOGIN
+            </button>
+        </form>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("gridCanvas");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+let offset = 0;
+function drawGrid() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = "rgba(0,255,136,0.08)";
+  ctx.lineWidth = 1;
+  const gap = 40;
+  offset += 0.2;
+  
+  for (let x = -offset; x < canvas.width; x += gap) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  
+  for (let y = offset; y < canvas.height; y += gap) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+
+  requestAnimationFrame(drawGrid);
+}
+drawGrid();
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Variabel untuk video
+      const loginForm = document.getElementById('loginForm');
+      const videoContainer = document.getElementById('videoContainer');
+      const loginVideo = document.getElementById('loginVideo');
+      
+      // Handle form submission untuk menampilkan video
+      loginForm.addEventListener('submit', function(e) {
+        // Biarkan form submit normal ke /auth
+        // Tapi juga tampilkan video sebagai feedback visual
+        
+        // Simpan reference ke form ini
+        const form = this;
+        
+        // Prevent default sementara untuk menampilkan video
+        e.preventDefault();
+        
+        // Tampilkan video
+        showSuccessVideo();
+        
+        // Setelah video selesai, submit form asli
+        loginVideo.addEventListener('ended', function() {
+          // Langsung submit form tanpa popup
+          form.submit();
+        }, { once: true }); // Hanya sekali
+      });
+      
+      // Function to show success video
+      function showSuccessVideo() {
+        // Tampilkan video container
+        videoContainer.classList.add('active');
+        
+        // Play video dengan suara
+        loginVideo.play().catch(error => {
+          console.error("Error playing video:", error);
+          // Jika ada masalah dengan autoplay, submit form langsung
+          loginForm.submit();
+        });
+      }
+      
+      // Function untuk efek asap rokok
+      function createSmokeParticles() {
+        const smokeBackground = document.getElementById('smoke-background');
+        
+        for (let i = 0; i < 15; i++) {
+          setTimeout(() => {
+            createSmokeParticle(smokeBackground);
+          }, i * 200);
+        }
+        
+        setInterval(() => {
+          createSmokeParticle(smokeBackground);
+        }, 300);
+      }
+      
+      function createSmokeParticle(container) {
+        const particle = document.createElement('div');
+        particle.classList.add('smoke-particle');
+        
+        const leftPosition = Math.random() * 100;
+        particle.style.left = `${leftPosition}%`;
+        
+        const duration = 10 + Math.random() * 20;
+        particle.style.animationDuration = `${duration}s`;
+        
+        const size = 3 + Math.random() * 7;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        const red = 200 + Math.floor(Math.random() * 55);
+        const alpha = 0.3 + Math.random() * 0.4;
+        particle.style.backgroundColor = `rgba(${red}, 50, 50, ${alpha})`;
+        
+        container.appendChild(particle);
+        
+        setTimeout(() => {
+          if (particle.parentNode) {
+            particle.parentNode.removeChild(particle);
+          }
+        }, duration * 1000);
+      }
+
+      // Initialize smoke background
+      createSmokeParticles();
+      
+      // Preload video untuk performa lebih baik
+      loginVideo.load();
+    });
+  </script>
+</body>
+</html>

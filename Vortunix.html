@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VORTUNIX APPS</title>
+  <!-- FIXED: Hapus spasi sebelum ; -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <!-- FIXED: Hapus spasi sebelum " rel -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #0D0014;
+      color: #E0E0E0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .app-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      z-index: 10;
+    }
+    h1.main-title {
+      font-family: 'Orbitron', sans-serif;
+      color: #BE60EE;
+      font-size: 32px;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px rgba(190, 96, 238, 0.6);
+      letter-spacing: 2px;
+    }
+    .container {
+      background: #1A0526;
+      border: 1px solid #3F0A5E;
+      padding: 24px;
+      border-radius: 20px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 0 25px rgba(190, 96, 238, 0.4);
+      margin-bottom: 20px;
+    }
+    .profile-card {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .profile-logo {
+      width: 100px; height: 100px; margin: 0 auto 15px; display: block; border-radius: 50%;
+      box-shadow: 0 0 10px rgba(190, 96, 238, 0.8); border: 3px solid #BE60EE; object-fit: cover;
+    }
+    .profile-username {
+      font-family: 'Orbitron', sans-serif; font-size: 24px; color: #E0E0E0; font-weight: bold; margin-bottom: 8px;
+    }
+    .profile-details {
+      font-size: 14px; color: #9A9A9A;
+    }
+    .profile-details span {
+      color: #BE60EE; font-weight: 600;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif; font-size: 18px; color: #BE60EE; margin-bottom: 15px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    input[type="text"], select {
+      width: 100%; padding: 14px 18px; border-radius: 10px; background: #2D0842;
+      border: 1px solid #BE60EE; color: #E0E0E0; margin-bottom: 25px; font-size: 16px;
+      font-family: 'Montserrat', sans-serif; outline: none; transition: box-shadow 0.3s ease;
+    }
+    select {
+      appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill="%23E0E0E0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+      background-repeat: no-repeat; background-position: right 15px center; padding-right: 40px;
+    }
+    .execute-button {
+      background: linear-gradient(90deg, #BE60EE, #7D26A6); color: #fff; padding: 18px; width: 100%;
+      border-radius: 10px; font-weight: bold; border: none; cursor: pointer; font-size: 18px;
+      letter-spacing: 1px; transition: 0.3s ease; box-shadow: 0 0 15px rgba(190, 96, 238, 0.4);
+    }
+    .execute-button:disabled {
+      background: #4A1B6B; cursor: not-allowed; opacity: 0.6; box-shadow: none;
+    }
+    .execute-button:hover:not(:disabled) {
+      background: linear-gradient(90deg, #7D26A6, #BE60EE); box-shadow: 0 0 25px rgba(190, 96, 238, 0.8);
+    }
+    .popup {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
+      background: #2D0842; color: #00ff5e; padding: 16px 22px; border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,255,94,0.7); font-weight: bold; display: none; z-index: 9999;
+      animation: zoomFade 2s ease forwards; text-align: center;
+    }
+    @keyframes zoomFade {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+      15% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      85% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    }
+    .dashboard-page { display: none; }
+    .dashboard-page.active { display: block; }
+    .darkverse-dashboard {
+      display: none; width: 100%; max-width: 420px;
+    }
+    .darkverse-dashboard.active { display: block; }
+    .darkverse-slider {
+      position: relative; width: 100%; height: 180px; overflow: hidden;
+      border-radius: 18px; margin-bottom: 20px; border: 1px solid #3F0A5E;
+      box-shadow: 0 0 20px rgba(190,96,238,0.3);
+    }
+    .darkverse-slider .slide-track {
+      display: flex; width: 300%; height: 100%; transition: transform 0.8s ease;
+    }
+    .darkverse-slider img {
+      width: 100%; height: 100%; object-fit: cover; flex-shrink: 0;
+      filter: brightness(0.9); border-radius: 18px;
+    }
+    .darkverse-text-overlay {
+      position: absolute; bottom: 15px; left: 15px; z-index: 5;
+      text-shadow: 0 0 12px rgba(190, 96, 238, 0.8);
+    }
+    .darkverse-text-overlay h2 {
+      font-family: 'Orbitron', sans-serif; font-size: 20px; color: #E0E0E0; margin: 0;
+    }
+    .darkverse-text-overlay p {
+      color: #ccc; font-size: 12px; margin: 5px 0 0;
+    }
+    .darkverse-text-overlay span { color: #BE60EE; font-weight: 600; }
+    .menu-grid {
+      display: flex; justify-content: space-around; flex-wrap: wrap; margin-bottom: 25px; gap: 15px;
+    }
+    .menu-item {
+      width: 75px; text-align: center; color: #E0E0E0; cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .menu-item:hover { transform: translateY(-3px); }
+    .menu-circle {
+      width: 65px; height: 65px; border-radius: 50%; background: #1A0526;
+      border: 1px solid #3F0A5E; display: flex; justify-content: center; align-items: center;
+      margin: 0 auto 8px; box-shadow: 0 0 10px rgba(190,96,238,0.3);
+      transition: all 0.3s ease;
+    }
+    .menu-circle:hover {
+      background: #2D0842; border-color: #BE60EE; box-shadow: 0 0 15px rgba(190,96,238,0.6);
+    }
+    .menu-circle i { color: #BE60EE; font-size: 20px; }
+    .menu-label { font-size: 12px; }
+    .server-stats {
+      background: linear-gradient(180deg, #2D0842, #1A0526);
+      border: 1px solid #3F0A5E; border-radius: 14px; padding: 20px;
+    }
+    .stats-title {
+      font-family: 'Orbitron', sans-serif; color: #BE60EE; font-size: 18px;
+      margin-bottom: 15px; text-align: center;
+    }
+    .stat-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-top: 1px solid #3F0A5E;
+    }
+    .stat-row:first-of-type { border-top: none; }
+    .stat-label {
+      display: flex; align-items: center; gap: 8px; color: #9A9A9A; font-size: 14px;
+    }
+    .stat-value { color: #BE60EE; font-family: 'Orbitron', sans-serif; font-size: 20px; }
+    #smoke-background {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 1; pointer-events: none; overflow: hidden;
+    }
+    .smoke-particle {
+      position: absolute; bottom: 0; width: 5px; height: 5px;
+      background-color: rgba(255, 50, 50, 0.6); border-radius: 50%;
+      filter: blur(2px); animation: smoke-rise linear infinite;
+    }
+    @keyframes smoke-rise {
+      0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0.8; }
+      50% { transform: translateY(-50vh) translateX(10px) scale(1.5); opacity: 0.5; }
+      100% { transform: translateY(-100vh) translateX(20px) scale(2); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div id="smoke-background"></div>
+  <div class="app-wrapper">
+    <h1 class="main-title">VORTUNIX APPS</h1>
+    
+    <div id="darkverseDashboard" class="dashboard-page darkverse-dashboard active">
+      <div class="darkverse-slider">
+        <div class="slide-track">
+          <!-- FIXED: Hapus spasi di akhir URL -->
+          <img src="https://k.top4top.io/p_358731jod0.jpeg" alt="Slide 1">
+          <img src="https://c.top4top.io/p_3588hp4sk0.jpeg" alt="Slide 2">
+        </div>
+        <div class="darkverse-text-overlay">
+          <h2>VORTUNIX APPS</h2>
+          <p>Buy Acces Chat <span>@GyzenVtx</span></p>
+        </div>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item" onclick="showDashboard('attack')">
+          <div class="menu-circle"><i class="fas fa-bolt"></i></div><div class="menu-label">Attack</div>
+        </div>
+        <!-- FIXED: Hapus spasi di akhir URL -->
+        <div class="menu-item" onclick="window.location.href='https://t.me/GyzenVtx'">
+          <div class="menu-circle"><i class="fab fa-telegram"></i></div><div class="menu-label">Developer</div>
+        </div>
+        <div class="menu-item" onclick="window.location.href='/logout'">
+          <div class="menu-circle"><i class="fas fa-sign-out-alt"></i></div><div class="menu-label">Logout</div>
+        </div>
+      </div>
+      <div class="server-stats">
+        <div class="stats-title"><i class="fas fa-chart-bar"></i> Server Stats</div>
+        <div class="stat-row">
+          <div class="stat-label"><i class="fas fa-user"></i> Online Users</div>
+          <div class="stat-value">0</div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-label"><i class="fas fa-rocket"></i> Active Sender</div>
+          <div class="stat-value">0</div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="attackDashboard" class="dashboard-page">
+      <div class="container profile-card">
+        <!-- FIXED: Hapus spasi di akhir URL dan tambahkan userKey -->
+        <img src="https://files.catbox.moe/gj5h7q.jpg" alt="Logo" class="profile-logo">
+        <div class="profile-username">${username || 'Unknown'}</div>
+        <!-- ADDED: Tampilkan userKey agar kompatibel dengan backend -->
+        <div class="profile-details">
+          Role: <span>OWNER</span> • Key: <span>${userKey || 'Unknown'}</span> • Exp: <span>${formattedTime}</span>
+        </div>
+      </div>
+      <div class="container">
+        <div class="section-title">Target Number</div>
+        <input type="text" id="targetNumberInput" placeholder="e.g. 628xxxxxxxxxx">
+        <div class="section-title">Select Bug</div>
+        <select id="bugSelect">
+          <option value="" disabled selected>Select Bug...</option>
+          <option value="blank">DELAY ANDRO</option>
+          <option value="blankios">DELAY IPHONE</option>
+          <option value="invis">BULLDOZER</option>
+        </select>
+        <button class="execute-button" id="executeBtn" disabled><i class="fas fa-bug"></i> SEND BUG</button>
+      </div>
+    </div>
+  </div>
+  <div id="popup" class="popup">✅ Success Send Bug</div>
+  <script>
+    // ADDED: Auto-redirect jika belum login
+    document.addEventListener('DOMContentLoaded', () => {
+      const cookies = document.cookie.split(';').map(c => c.trim());
+      const hasSession = cookies.some(c => c.startsWith('sessionUser='));
+      
+      if (!hasSession && window.location.pathname !== '/login') {
+        window.location.href = '/login';
+        return;
+      }
+      
+      // Existing initialization
+      const bugSelect = document.getElementById('bugSelect');
+      bugSelect.value = '';
+      updateExecuteButtonState();
+      createSmokeParticles();
+    });
+
+    let selectedBugMode = '';
+    const popup = document.getElementById('popup');
+    const targetNumberInput = document.getElementById('targetNumberInput');
+    const bugSelect = document.getElementById('bugSelect');
+    const executeBtn = document.getElementById('executeBtn');
+
+    function showDashboard(dashboardId) {
+      document.querySelectorAll('.dashboard-page').forEach(el => el.classList.remove('active'));
+      if (dashboardId === 'attack') document.getElementById('attackDashboard').classList.add('active');
+      else if (dashboardId === 'darkverse') document.getElementById('darkverseDashboard').classList.add('active');
+    }
+
+    function isValidNumber(number) {
+      const cleanedNumber = number.replace(/[\s\+\-\(\)]/g, '');
+      return /^\d{7,15}$/.test(cleanedNumber);
+    }
+
+    function updateExecuteButtonState() {
+      executeBtn.disabled = !(isValidNumber(targetNumberInput.value.trim()) && selectedBugMode !== '');
+    }
+
+    targetNumberInput.addEventListener('input', updateExecuteButtonState);
+    bugSelect.addEventListener('change', () => { selectedBugMode = bugSelect.value; updateExecuteButtonState(); });
+
+    executeBtn.addEventListener('click', () => {
+      const number = targetNumberInput.value.trim();
+      if (!number) return alert("Silakan masukkan nomor target.");
+      if (selectedBugMode === '') return alert("Silakan pilih jenis bug terlebih dahulu.");
+      popup.style.display = "block";
+      window.location.href = '/execution?mode=' + selectedBugMode + '&target=' + encodeURIComponent(number.replace(/[^\d+]/g, ''));
+      setTimeout(() => popup.style.display = "none", 2000);
+    });
+
+    const track = document.querySelector(".darkverse-slider .slide-track");
+    const slides = document.querySelectorAll(".darkverse-slider img");
+    let index = 0, startX = 0, isDragging = false, autoSlide;
+
+    function autoNext() { index = (index + 1) % slides.length; track.style.transform = `translateX(-${index * 100}%)`; }
+    function startAutoSlide() { autoSlide = setInterval(autoNext, 4000); }
+    function stopAutoSlide() { clearInterval(autoSlide); }
+
+    track.addEventListener("touchstart", (e) => { stopAutoSlide(); isDragging = true; startX = e.touches[0].clientX; });
+    track.addEventListener("touchmove", (e) => { if (!isDragging) return; track.style.transform = `translateX(calc(-${index * 100}% + ${e.touches[0].clientX - startX}px))`; });
+    track.addEventListener("touchend", (e) => { isDragging = false; const diff = e.changedTouches[0].clientX - startX; if (Math.abs(diff) > 50) { if (diff > 0) index = Math.max(0, index - 1); else index = Math.min(slides.length - 1, index + 1); } track.style.transform = `translateX(-${index * 100}%)`; startAutoSlide(); });
+
+    startAutoSlide();
+
+    function createSmokeParticles() {
+      const container = document.getElementById('smoke-background');
+      for (let i = 0; i < 15; i++) setTimeout(() => createSmokeParticle(container), i * 200);
+      setInterval(() => createSmokeParticle(container), 300);
+    }
+    
+    function createSmokeParticle(container) {
+      const particle = document.createElement('div'); particle.classList.add('smoke-particle');
+      particle.style.left = `${Math.random() * 100}%`;
+      const duration = 10 + Math.random() * 20; particle.style.animationDuration = `${duration}s`;
+      const size = 3 + Math.random() * 7; particle.style.width = `${size}px`; particle.style.height = `${size}px`;
+      particle.style.backgroundColor = `rgba(${200 + Math.floor(Math.random() * 55)}, 50, 50, ${0.3 + Math.random() * 0.4})`;
+      container.appendChild(particle);
+      setTimeout(() => particle.remove(), duration * 1000);
+    }
+  </script>
+</body>
+</html>
